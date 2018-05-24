@@ -1,22 +1,58 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+// Libs
+import React, { Component } from 'react'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import './App.css';
+// Components
+import Header from './components/Header'
+import Paper from '@material-ui/core/Paper'
+
+
+// Pages
+import NewGamePage from './pages/NewGame'
+import IndexPage from './pages/Index'
+
+// Resources
+import backgroundURI from '../assets/background.jpg'
+import green from '@material-ui/core/colors/green'
+
+
+// Variables
+const theme = createMuiTheme({
+  palette: {
+    primary: green
+  }
+})
+const styles = theme => ({
+  app: {
+    background: `url(${backgroundURI}) repeat`,
+    height: '100%'
+  },
+  paper: {
+    margin: `30px 10px`,
+    padding: '10px',
+    height: '70%'
+  }
+})
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <div className="app" className={this.props.classes.app}>
+            <Header />
+          
+            <Paper className={this.props.classes.paper} elevation={4}>
+              <Route exact path="/" component={IndexPage} />
+              <Route path="/new" component={NewGamePage} />
+            </Paper>
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    )
   }
 }
 
-export default App;
+export default withStyles(styles)(App)
