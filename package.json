@@ -10,6 +10,9 @@
     "parcel",
     "react"
   ],
+  "engines": {
+    "node": "8.11.2"
+  },
   "author": "“Robin <“wrobin@gmx.net”> (https://www.robinwieruch.de)",
   "license": "MIT",
   "dependencies": {
