@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 // Pages
 import NewGamePage from './pages/NewGame'
 import IndexPage from './pages/Index'
+import MatchPage from './pages/Match'
 
 // Resources
 import backgroundURI from '../assets/background.jpg'
@@ -47,6 +48,7 @@ class App extends Component {
             <Paper className={this.props.classes.paper} elevation={4}>
               <Route exact path="/" component={IndexPage} />
               <Route path="/new" component={NewGamePage} />
+              <Route path="/match" component={MatchPage} />
             </Paper>
           </div>
         </Router>

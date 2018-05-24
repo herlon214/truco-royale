@@ -1,5 +1,5 @@
 // Libs
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const styles = theme => ({
   }
 })
 
-const Header = ({ classes }) => (
+const Page = ({ classes }) => (
   <div className={classes.component}>
     Olá mundo!  <br/><br/>
 
@@ -30,4 +30,4 @@ const Header = ({ classes }) => (
   </div>
 )
 
-export default withStyles(styles)(Header)
+export default withStyles(styles)(Page)

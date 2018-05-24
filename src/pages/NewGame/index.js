@@ -1,5 +1,5 @@
 // Libs
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core'
 
 // Components
@@ -13,10 +13,10 @@ const styles = theme => ({
   }
 })
 
-const Header = ({ classes }) => (
+const Page = ({ classes }) => (
   <div className={classes.component}>
     Essa é a página de criação da partida.
   </div>
 )
 
-export default withStyles(styles)(Header)
+export default withStyles(styles)(Page)
