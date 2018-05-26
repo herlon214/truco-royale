@@ -2,12 +2,11 @@
 import React, { Component } from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { withStyles } from '@material-ui/core'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 // Components
 import Header from './components/Header'
 import Paper from '@material-ui/core/Paper'
-
 
 // Pages
 import NewGamePage from './pages/NewGame'
@@ -17,7 +16,6 @@ import MatchPage from './pages/Match'
 // Resources
 import backgroundURI from '../assets/background.jpg'
 import green from '@material-ui/core/colors/green'
-
 
 // Variables
 const theme = createMuiTheme({
@@ -38,13 +36,13 @@ const styles = theme => ({
 })
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
           <div className="app" className={this.props.classes.app}>
             <Header />
-          
+
             <Paper className={this.props.classes.paper} elevation={4}>
               <Route exact path="/" component={IndexPage} />
               <Route path="/new" component={NewGamePage} />
