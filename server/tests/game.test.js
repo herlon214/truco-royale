@@ -6,9 +6,10 @@ describe ('Game test', () => {
   it ('should have default values', () => {
     const game = new Game()
 
-    expect(game.cards.size).have.be.eq(40)
-    expect(game.players.size).have.be.eq(0)
-    expect(game.rounds.size).have.be.eq(0)
+    expect(game.cards.size).to.be.eq(40)
+    expect(game.players.size).to.be.eq(0)
+    expect(game.rounds.size).to.be.eq(0)
+    expect(game.actualRoundIndex).to.be.eq(-1)
     expect(game.started).to.be.eq(false)
   })
 
@@ -35,4 +36,3 @@ describe ('Game test', () => {
     expect(JSON.stringify(shuffle)).to.not.be.eq(JSON.stringify(game.cards)) // Raw check of cards
   })
 })
-

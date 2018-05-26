@@ -9,6 +9,7 @@ class Game {
     this.rounds = List()
     this.started = false
     this.startedAt = null
+    this.actualRoundIndex = -1
 
     // Set default values
     this.defaultPlayerLife = 4
@@ -25,7 +26,7 @@ class Game {
 
     this.players = this.players.push(
       Map(player).merge({
-        life: this.defaultPlayerLife
+        lifes: this.defaultPlayerLife
       })
     )
   }
@@ -43,10 +44,34 @@ class Game {
     const round = new Round({
       number: this.rounds.size + 1,
       cards: this.shuffleCards(),
-      players: this.players.slice()
+      players: this.players
     })
 
     this.rounds = this.rounds.push(round)
+    this.actualRoundIndex += 1
+  }
+
+  // Finish the actual round
+  finishRound () {
+    let round = this.rounds.get(this.actualRoundIndex)
+    round.finish()
+
+    const results = round.getResults()
+    let predictsDifference = Map()
+
+    // Calculate the difference between predicts and wins
+    round.predicts.forEach((predict) => {
+      const diff = Math.abs(predict.get('wins') - results.get(predict.get('playerId')))
+      predictsDifference = predictsDifference.set(predict.get('playerId'), diff)
+    })
+
+    // Remove the lives of those who did a prediction mistake
+    this.players = this.players.map((player) => {
+      const diff = player.get('lifes') - predictsDifference.get(player.get('id'))
+      return player.set('lifes', diff)
+    })
+
+    this.rounds = this.rounds.set(this.actualRoundIndex, round)
   }
 
   // Shuffle given cards

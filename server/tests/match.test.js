@@ -14,7 +14,7 @@ describe ('Match test', () => {
       id: player.id,
       name: player.name,
       role: player.role,
-      life: game.defaultPlayerLife
+      lifes: game.defaultPlayerLife
     })
   })
 
@@ -33,7 +33,7 @@ describe ('Match test', () => {
       id: admin.id,
       name: admin.name,
       role: admin.role,
-      life: game.defaultPlayerLife
+      lifes: game.defaultPlayerLife
     })
   })
 
@@ -41,35 +41,5 @@ describe ('Match test', () => {
     const game = new Game()
 
     expect(game.createRound.bind(game)).to.throw('There is no players')
-  })
-
-  it ('should create the a rounds', () => {
-    const game = new Game()
-
-    const admin = { id: '123', name: 'Herlon Aguiar', role: ['admin'] }
-    const player = { id: '456', name: 'Jeovano Coutinho', role: ['player'] }
-
-    game.newPlayer(admin)
-    game.newPlayer(player)
-    game.start()
-    game.createRound()
-
-    // First round test
-    expect(game.rounds.size).to.be.eq(1)
-    expect(game.rounds.get(0)).to.have.keys([ 'number', 'pivot', 'players' ])
-    expect(game.rounds.get(0).players.size).to.be.eq(2)
-    expect(game.rounds.get(0).players.getIn([0, 'cards']).size).to.be.eq(1)
-    expect(game.rounds.get(0).players.getIn([0, 'cards']).size + game.rounds.get(0).players.getIn([1, 'cards']).size).to.be.eq(2)
-
-    game.createRound()
-
-    // Second round test
-    expect(game.rounds.size).to.be.eq(2)
-    expect(game.rounds.get(1)).to.have.keys([ 'number', 'pivot', 'players' ])
-    expect(game.rounds.get(1).players.size).to.be.eq(2)
-    expect(game.rounds.get(1).players.getIn([0, 'cards']).size).to.be.eq(2)
-    expect(game.rounds.get(1).players.getIn([0, 'cards']).size + game.rounds.get(1).players.getIn([1, 'cards']).size).to.be.eq(4)
-
-    console.log(JSON.stringify(game))
   })
 })
