@@ -11,7 +11,7 @@ module.exports = (io) => {
     Object.keys(events).map((evt) => {
       debug(`Registering event [${evt}] to ${socket.id}`)
       const middleware = (data, callback) => {
-        events[evt]({ games, sockets }, socket, data, callback)
+        events[evt]({ games, sockets, io }, socket, data, callback)
       }
       socket.on(evt, middleware)
     })
@@ -25,6 +25,20 @@ module.exports = (io) => {
 
       // Remove from the sockets available
       sockets = sockets.filter((sock) => sock.id !== socket.id)
+
+      // Remove player from a connected game
+      games = games.map((game) => {
+        // Check if the player leaved this game
+        const actualPlayersNumber = game.players.size
+        game.players = game.players.filter((player) => player.get('playerId') !== socket.id)
+        const newPlayersNumber = game.players.size
+
+        if (actualPlayersNumber !== newPlayersNumber) {
+          io.to(game.getRoom()).emit('refreshGame', game)
+        }
+
+        return game
+      })
     })
   })
 

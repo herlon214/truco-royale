@@ -30,7 +30,7 @@ const Page = class Page extends Component {
   }
 
   componentDidMount () {
-    socket.emit('getGame', this.state.matchId)
+    socket.emit('joinGame', this.state.matchId)
     socket.on('refreshGame', (data) => this.setState({ gameData: data }))
   }
 

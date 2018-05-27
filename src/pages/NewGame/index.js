@@ -24,7 +24,7 @@ const Page = (props) => {
     <div className={props.classes.component}>
       Essa é a página de criação da partida. <br/><br/>
 
-      <Button variant="raised" color="primary" onClick={createNewGame(props.history)}>Criar</Button>
+      <Button variant='raised' color='primary' onClick={createNewGame(props.history)}>Criar</Button>
     </div>
   )
 }

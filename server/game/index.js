@@ -20,6 +20,10 @@ class Game {
       .reduce((acc, cards) => acc.concat(cards), List())
   }
 
+  getRoom () {
+    return 'game_' + this.id
+  }
+
   // Insert a player into the match
   newPlayer (player) {
     // Do not let a player enter if it has already started
