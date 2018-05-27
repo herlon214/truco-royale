@@ -33,29 +33,32 @@ const Page = class Page extends Component {
   }
 
   componentDidMount () {
-    socket.emit('joinGame', this.state.matchId)
+    if (this.props.match.params.id) socket.emit('joinGame', this.state.matchId)
     socket.on('refreshGame', (data) => this.setState({ gameData: data }))
   }
 
   render () {
     console.log(this.state)
-    if (this.state.matchId === '') {
+    if (!this.props.match.params.id) {
       return (
         <div className={this.props.classes.component}>
-          <Typography variant="display1">Buscar Partida</Typography>
-          <form noValidate autoComplete="off">
+          <Typography variant='display1'>Buscar Partida</Typography>
+          <form noValidate autoComplete='off'>
             <TextField
-              id="match_id"
-              label="ID da partida"
+              id='match_id'
+              label='ID da partida'
               className={this.props.classes.textField}
               value={this.state.matchId}
               onChange={(evt) => this.setState({ matchId: evt.target.value })}
-              margin="normal"
+              margin='normal'
             />
 
             <br /><br />
 
-            <Button variant="raised" color="primary">Encontrar partida</Button>
+            <Button
+              variant='raised'
+              color='primary'
+              onClick={() => this.props.history.push('/match/' + this.state.matchId)}>Encontrar partida</Button>
           </form>
         </div>
       )

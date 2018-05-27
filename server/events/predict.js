@@ -8,7 +8,7 @@ module.exports = (context, socket, data, callback) => {
     const round = game.rounds.get(game.actualRoundIndex)
 
     round.setPredict(socket.id, data)
-    socket.emit('message', 'Toque na carta para usar quando estiver disponível')    
+    socket.emit('message', 'Toque na carta para usar quando estiver disponível.')
     context.io.to(game.getRoom()).emit('refreshGame', game)
   } catch (err) {
     console.log(err)
