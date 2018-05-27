@@ -4,12 +4,19 @@ import { withStyles } from '@material-ui/core'
 import socket from '../../libs/socket'
 
 // Components
-import Button from '@material-ui/core/Button'
+import NewGameForm from '/components/NewGameForm';
+import Grid from '@material-ui/core/Grid'
 
 // Variables
 const styles = theme => ({
   component: {
     textAlign: 'center'
+  },
+  form: {
+    justifyContent: 'center',
+    margin: theme.spacing.unit,
+    padding: theme.spacing.unit * 2
+  
   }
 })
 
@@ -23,8 +30,14 @@ const Page = (props) => {
   return (
     <div className={props.classes.component}>
       Essa é a página de criação da partida. <br/><br/>
-
-      <Button variant='raised' color='primary' onClick={createNewGame(props.history)}>Criar</Button>
+      <Grid container justify='center'>
+        <Grid item xs={12} md={6}>
+          <Grid container className={props.classes.form}>
+            <NewGameForm onSubmit={createNewGame} history={props.history} />
+          </Grid>
+        </Grid>
+      </Grid>
+      
     </div>
   )
 }
