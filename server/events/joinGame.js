@@ -5,7 +5,15 @@ module.exports = (context, socket, data, callback) => {
   try {
     const game = context.games.filter((game) => game.id === data)[0]
 
-    if (!game) return
+    if (!game) {
+      socket.emit('message', 'Partida não encontrada.')
+      return
+    }
+
+    if (game.started) {
+      socket.emit('message', 'A partida já começou.')
+      return
+    }
 
     // Join game room
     socket.join(game.getRoom())

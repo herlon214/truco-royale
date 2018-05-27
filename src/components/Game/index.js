@@ -69,6 +69,14 @@ class Game extends Component {
     )
   }
 
+  startMessage () {
+    if (this.props.data.players[0].playerId === socket.id) {
+      return <Button variant='raised' onClick={() => socket.emit('startGame', this.props.data.id)}>Começar</Button>
+    } else {
+      return <Typography>Aguardando o líder iniciar a partida...</Typography>
+    }
+  }
+
   render () {
     if (this.props.data === null) return <Typography variant='display1' className={this.props.classes.centered}>Jogo não encontrado...</Typography>
 
@@ -77,7 +85,7 @@ class Game extends Component {
         <div>
           <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
           <br /><br/>
-          <Button variant='raised' onClick={() => socket.emit('startGame', this.props.data.id)}>Começar</Button>
+          {this.startMessage()}
         </div>
       )
     }
