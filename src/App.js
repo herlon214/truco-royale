@@ -60,7 +60,7 @@ class App extends Component {
             <Paper className={this.props.classes.paper} elevation={4}>
               <Route exact path="/" component={IndexPage} />
               <Route path="/new" component={NewGamePage} />
-              <Route path="/match" component={MatchPage} />
+              <Route path="/match/:id" component={MatchPage} />
             </Paper>
           </div>
         </Router>

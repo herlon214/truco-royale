@@ -4,8 +4,9 @@ const Game = require('../game')
 
 describe ('Game test', () => {
   it ('should have default values', () => {
-    const game = new Game()
+    const game = new Game('123')
 
+    expect(game.id).to.be.eq('123')
     expect(game.cards.size).to.be.eq(40)
     expect(game.players.size).to.be.eq(0)
     expect(game.rounds.size).to.be.eq(0)

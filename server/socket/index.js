@@ -1,6 +1,6 @@
 // Libs
 const debug = require('debug')('truco-royale:socket')
-const events = require('./events')
+const events = require('../events')
 let games = []
 let sockets = []
 
@@ -10,8 +10,8 @@ module.exports = (io) => {
     // Bind the events to client
     Object.keys(events).map((evt) => {
       debug(`Registering event [${evt}] to ${socket.id}`)
-      const middleware = (data) => {
-        events[evt]({ games, sockets }, socket, data)
+      const middleware = (data, callback) => {
+        events[evt]({ games, sockets }, socket, data, callback)
       }
       socket.on(evt, middleware)
     })

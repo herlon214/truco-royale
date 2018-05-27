@@ -4,7 +4,8 @@ const Round = require('./round')
 const createSymbols = require('../lib/createSymbols')
 
 class Game {
-  constructor () {
+  constructor (id) {
+    this.id = id
     this.players = List()
     this.rounds = List()
     this.started = false
