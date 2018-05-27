@@ -8,6 +8,7 @@ import socket from './libs/socket'
 // Components
 import Header from './components/Header'
 import Paper from '@material-ui/core/Paper'
+import Snackbar from '@material-ui/core/Snackbar'
 
 // Pages
 import NewGamePage from './pages/NewGame'
@@ -31,8 +32,7 @@ const styles = theme => ({
   },
   paper: {
     margin: `30px 10px`,
-    padding: '10px',
-    height: '70%'
+    padding: '10px'
   }
 })
 
@@ -42,12 +42,26 @@ class App extends Component {
 
     this.state = {
       game: null,
-      socket: socket
+      message: '',
+      messageOpen: false
     }
   }
 
   componentDidMount () {
-    // Connect to the socketio
+    // Handle socket events
+    socket.on('error', (message) => {
+      this.setState({
+        message,
+        messageOpen: true
+      })
+    })
+
+    socket.on('message', (message) => {
+      this.setState({
+        message,
+        messageOpen: true
+      })
+    })
   }
 
   render () {
@@ -62,6 +76,16 @@ class App extends Component {
               <Route path="/new" component={NewGamePage} />
               <Route path="/match/:id" component={MatchPage} />
             </Paper>
+
+            <Snackbar
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              open={this.state.messageOpen}
+              onClose={() => this.setState({ messageOpen: false })}
+              ContentProps={{
+                'aria-describedby': 'message-id'
+              }}
+              message={<span id="message-id">{this.state.message}</span>}
+            />
           </div>
         </Router>
       </MuiThemeProvider>
