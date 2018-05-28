@@ -3,9 +3,13 @@ const debug = require('debug')('truco-royale:events')
 
 module.exports = (context, socket, data, callback) => {
   try {
+    if (!data) return
+
     const game = context.games.filter((game) => game.id === data)[0]
-    game.players = game.players.filter((player) => player.get('playerId') !== socket.id)
     if (!game) return
+
+    // Remove player
+    game.players = game.players.filter((player) => player.get('playerId') !== socket.id)
 
     // Leave game room
     socket.leave(game.getRoom())

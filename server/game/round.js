@@ -82,12 +82,14 @@ class Round {
 
     // Remove the card from the player
     this.players = this.players.map((player) => {
-      if (player.get('id') === playerId && player.get('cards').indexOf(card) >= 0) {
+      if (player.get('playerId') === playerId) {
         player = player.set('cards', player.get('cards').filter((c) => c !== card))
       }
 
       return player
     })
+
+    this.updateDecision()
   }
 
   // Finish the round

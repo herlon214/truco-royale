@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core'
 import socket from '../../libs/socket'
+import store from '../../libs/store'
 
 // Components
 import Button from '@material-ui/core/Button'
@@ -33,7 +34,19 @@ const Page = class Page extends Component {
   }
 
   componentDidMount () {
-    if (this.props.match.params.id) socket.emit('joinGame', this.state.matchId)
+    if (this.props.match.params.id) {
+      // Disconnect from previous game
+      if (store.matchId && store.matchId !== this.state.matchId) {
+        socket.emit('leave', store.matchId)
+      }
+
+      // Connect to the new game
+      if (!store.matchId || store.matchId !== this.state.matchId) {
+        socket.emit('joinGame', this.state.matchId)
+        store.matchId = this.state.matchId
+      }
+    }
+
     socket.on('refreshGame', (data) => {
       console.log(JSON.stringify(data))
       this.setState({ gameData: data })
