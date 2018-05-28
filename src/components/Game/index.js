@@ -123,7 +123,8 @@ class Game extends Component {
   }
 
   getDuelCards () {
-    const duelCards = this.getRound().duels[this.props.data.actualRoundIndex].cards.map((duelCards) => duelCards.card)
+    const round = this.getRound()
+    const duelCards = round.duels[round.actualDuelIndex].cards.map((duelCards) => duelCards.card)
     let cards = []
     cards = cards.concat([this.getRound().pivot], duelCards)
 

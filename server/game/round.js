@@ -13,7 +13,7 @@ class Round {
     this.duels = List()
     this.predicts = List()
 
-    // Create the predicts for each duel
+    // Create the cards list for each duel
     for (let i = 1; i <= number; i++) {
       this.duels = this.duels.push(Map({
         cards: List()
@@ -91,6 +91,11 @@ class Round {
 
     this.updateDecision()
 
+    // Check if need to set next duel
+    if (this.duels.get(this.actualDuelIndex).get('cards').size === this.players.size) {
+      this.actualDuelIndex += 1
+    }
+
     // Check if there are cards to be used
     let cardsLeft = 0
     this.players.forEach((player) => {
@@ -109,11 +114,10 @@ class Round {
 
   // Return the players discounting prediction errors
   getResults () {
-    if (this.actualDuelIndex < this.duels.size) throw new Error(`The round doesn't finished yet`)
-
     // Count the wins of each player
     const winsOfEachPlayer = this.duels.reduce((acc, duel) => {
       const cards = duel.get('cards').map((item) => item.get('card'))
+      console.log(cards)
       const bestCard = extractBestCard(cards, this.pivot)
 
       // Check if the duel has folded
