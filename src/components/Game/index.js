@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CardsPredictionSelector from '../CardsPredictionSelector'
 import Card from '../Card'
+import PlayersTable from '../PlayersTable'
 
 // Variables
 const styles = theme => ({
@@ -138,6 +139,10 @@ class Game extends Component {
     })
   }
 
+  ifMyDecision (component) {
+    if (this.getRound().decisionId === socket.id) return component
+  }
+
   render () {
     if (this.props.data === null) return <Typography variant='display1' className={this.props.classes.centered}>Jogo não encontrado...</Typography>
 
@@ -147,6 +152,18 @@ class Game extends Component {
           <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
           <br /><br/>
           {this.startMessage()}
+        </div>
+      )
+    }
+
+    if (this.getRound().finished) {
+      return (
+        <div>
+          <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
+          <Typography variant='display1' className={this.props.classes.centered}>Resultados</Typography>
+          <PlayersTable data={this.props.data.players} />
+          <br />
+          {this.ifMyDecision(<Button variant='raised' color='primary' onClick={() => socket.emit('createRound')}>Próximo round</Button>)}
         </div>
       )
     }

@@ -90,6 +90,15 @@ class Round {
     })
 
     this.updateDecision()
+
+    // Check if there are cards to be used
+    let cardsLeft = 0
+    this.players.forEach((player) => {
+      cardsLeft += player.get('cards').size
+    })
+
+    // Finish the round if there are no cards left
+    if (cardsLeft === 0) this.finish()
   }
 
   // Finish the round
