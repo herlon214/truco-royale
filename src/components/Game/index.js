@@ -30,29 +30,38 @@ class Game extends Component {
 
     const me = round.players.filter((player) => player.playerId === socket.id)[0]
 
-    return me.cards.map((cardName) => <Card key={cardName} name={cardName} available={this.iHavePredicted() || this.everybodyHavePredicted()} />)
+    return me.cards.map((cardName) => {
+      return (<Card key={cardName}
+        name={cardName}
+        available={this.getRound().decisionId === socket.id || this.everybodyHavePredicted()} />)
+    })
   }
 
   getRound () {
     return this.props.data.rounds[this.props.data.actualRoundIndex]
   }
 
-  // Return true if the player has predicted the round
-  iHavePredicted () {
-    return this.getRound().predicts.filter((predict) => predict.playerId === socket.id).length > 0
-  }
-
   // Return true if everybody has predicted the round
   everybodyHavePredicted () {
-    const predicts = this.getRound().predicts.filter((predict) => predict.playerId === socket.id).length
+    const predicts = this.getRound().predicts.length
     return predicts === this.getRound().players.length
+  }
+
+  getPlayer (id) {
+    return this.getRound().players.filter((player) => player.playerId === id)[0]
   }
 
   // Show prediction selectors
   predictionTime () {
+    const round = this.getRound()
+
+    if (this.everybodyHavePredicted()) return
+
     // Check if the player hasn't predicted yet
-    if (this.iHavePredicted()) {
-      return null
+    if (round.decisionId !== socket.id) {
+      return <div style={{textAlign: 'center'}}>
+        <Typography>É a vez do jogador {this.getPlayer(round.decisionId).name}</Typography>
+      </div>
     }
 
     return (
@@ -69,9 +78,16 @@ class Game extends Component {
     )
   }
 
+  // Match waiting to start
   startMessage () {
     if (this.props.data.players[0].playerId === socket.id) {
-      return <Button variant='raised' onClick={() => socket.emit('startGame', this.props.data.id)}>Começar</Button>
+      return (
+        <div style={{textAlign: 'center'}}>
+          <Typography variant='display2'>{this.props.data.id}</Typography>
+          <br/><br/>
+          <Button variant='raised' onClick={() => socket.emit('startGame', this.props.data.id)}>Começar</Button>
+        </div>
+      )
     } else {
       return <Typography>Aguardando o líder iniciar a partida...</Typography>
     }

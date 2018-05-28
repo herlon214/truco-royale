@@ -8,6 +8,8 @@ class Round {
     this.number = number
     this.finished = false
     this.actualDuelIndex = 0
+    this.decisionIndex = 0
+    this.decisionId = players.get(this.decisionIndex).get('playerId')
     this.duels = List()
     this.predicts = List()
 
@@ -49,9 +51,24 @@ class Round {
     }
   }
 
+  // Update the decision time
+  updateDecision () {
+    // Reset decision time
+    if (this.decisionIndex === this.players.size - 1) {
+      this.decisionIndex = 0
+    } else {
+      this.decisionIndex += 1
+    }
+
+    this.decisionId = this.players.get(this.decisionIndex).get('playerId')
+  }
+
   // Set the player predicts
   setPredict (playerId, wins) {
+    if (this.decisionId !== playerId) return
+
     this.predicts = this.predicts.push(Map({ playerId, wins }))
+    this.updateDecision()
   }
 
   // Set the player duel card

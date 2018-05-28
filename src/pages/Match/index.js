@@ -34,11 +34,17 @@ const Page = class Page extends Component {
 
   componentDidMount () {
     if (this.props.match.params.id) socket.emit('joinGame', this.state.matchId)
-    socket.on('refreshGame', (data) => this.setState({ gameData: data }))
+    socket.on('refreshGame', (data) => {
+      console.log(JSON.stringify(data))
+      this.setState({ gameData: data })
+    })
+  }
+
+  componentWillUnmount () {
+    socket.emit('leave', this.state.matchId)
   }
 
   render () {
-    console.log(this.state)
     if (!this.props.match.params.id) {
       return (
         <div className={this.props.classes.component}>
@@ -67,6 +73,7 @@ const Page = class Page extends Component {
     if (this.state.matchId !== '' && this.state.gameData === null) {
       return (
         <Grid container justify='center'>
+          {JSON.stringify(this.state)}
           <CircularProgress className={this.props.classes.progress} />
         </Grid>
       )
