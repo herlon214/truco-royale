@@ -21,7 +21,7 @@ const styles = theme => ({
 const Header = ({ classes }) => (
   <header>
     <Link to="/">
-      <Typography variant="display2" className={classes.header}>TRUCO ROYALE</Typography>    
+      <Typography variant="display1" className={classes.header}>TRUCO ROYALE</Typography>    
     </Link>
   </header>
 )
