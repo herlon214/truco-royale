@@ -16,7 +16,6 @@ const styles = theme => ({
     justifyContent: 'center',
     margin: theme.spacing.unit,
     padding: theme.spacing.unit * 2
-  
   }
 })
 

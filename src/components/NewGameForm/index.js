@@ -27,14 +27,22 @@ class NewGameForm extends Component {
   constructor(props) {
     super(props);
     this.state = {nickname: ''};
+
+    this.onSubmit       = this.onSubmit.bind(this);
+    this.onValueChange  = this.onValueChange.bind(this);
   }
 
-  onSubmit(history){
-    this.props.onSubmit(history);
+  onSubmit(){
+    console.log()
+    
+    this.props.onSubmit(this.props.history);
+  }
+
+  onValueChange(evt){
+    this.setState({nickname: evt.target.value });
   }
 
   render() {
-    const {history} = this.props.history; 
     const form =
     <div>
       <FormControl>
@@ -43,18 +51,17 @@ class NewGameForm extends Component {
             <AccountCircle />
           </Grid>
           <Grid item>
-            <TextField label='Insira seu apelido' ref="nickname" />
+            <TextField label='Insira seu apelido'
+                       value={this.state.nickname}
+                       onChange={this.onValueChange}/>
           </Grid>
         </Grid>
       </FormControl>
-      <div style={ {marginTop: '10px'}}>
-        <Button variant='raised' color='primary' onClick={this.onSubmit(history)}>Criar</Button>
+      <div style={{marginTop: '10px'}}>
+        <Button variant='raised' color='primary' onClick={this.onSubmit}>Criar</Button>
       </div>
-      
     </div>
-      
 
-      
       return form;
   }
 }
