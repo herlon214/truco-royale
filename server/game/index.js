@@ -57,9 +57,8 @@ class Game {
   }
 
   // Finish the actual round
-  finishRound () {
+  parseResults () {
     let round = this.rounds.get(this.actualRoundIndex)
-    round.finish()
 
     const results = round.getResults()
     let predictsDifference = Map()
@@ -72,7 +71,7 @@ class Game {
 
     // Remove the lives of those who did a prediction mistake
     this.players = this.players.map((player) => {
-      const diff = player.get('lifes') - predictsDifference.get(player.get('id'))
+      const diff = player.get('lifes') - predictsDifference.get(player.get('playerId'))
       return player.set('lifes', diff)
     })
 

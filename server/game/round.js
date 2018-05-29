@@ -8,10 +8,12 @@ class Round {
     this.number = number
     this.finished = false
     this.actualDuelIndex = 0
+    this.decisionIndex = 0
+    this.decisionId = players.get(this.decisionIndex).get('playerId')
     this.duels = List()
     this.predicts = List()
 
-    // Create the predicts for each duel
+    // Create the cards list for each duel
     for (let i = 1; i <= number; i++) {
       this.duels = this.duels.push(Map({
         cards: List()
@@ -49,9 +51,36 @@ class Round {
     }
   }
 
+  // Update the decision time
+  updateDecision () {
+    // The winner of the previous duel must start this
+    if (this.actualDuelIndex > 0) {
+      const previousDuel = this.duels.get(this.actualDuelIndex - 1)
+      const duelCards = previousDuel.get('cards').map((duelCard) => duelCard.get('card'))
+      const bestCard = extractBestCard(duelCards, this.pivot)
+      const bestPlayerId = previousDuel.get('cards').filter((duelCard) => duelCard.get('card') === bestCard).getIn([0, 'playerId'])
+
+      while (this.players.getIn([0, 'playerId']) !== bestPlayerId) {
+        this.players = this.players.shift().push(this.players.get(0))
+      }
+    }
+
+    // Reset decision time
+    if (this.decisionIndex === this.players.size - 1) {
+      this.decisionIndex = 0
+    } else {
+      this.decisionIndex += 1
+    }
+
+    this.decisionId = this.players.get(this.decisionIndex).get('playerId')
+  }
+
   // Set the player predicts
   setPredict (playerId, wins) {
+    if (this.decisionId !== playerId) return
+
     this.predicts = this.predicts.push(Map({ playerId, wins }))
+    this.updateDecision()
   }
 
   // Set the player duel card
@@ -65,24 +94,37 @@ class Round {
 
     // Remove the card from the player
     this.players = this.players.map((player) => {
-      if (player.get('id') === playerId && player.get('cards').indexOf(card) >= 0) {
+      if (player.get('playerId') === playerId) {
         player = player.set('cards', player.get('cards').filter((c) => c !== card))
       }
 
       return player
     })
+
+    // Check if need to set next duel
+    if (this.duels.get(this.actualDuelIndex).get('cards').size === this.players.size) {
+      this.actualDuelIndex += 1
+    }
+
+    // Check if there are cards to be used
+    let cardsLeft = 0
+    this.players.forEach((player) => {
+      cardsLeft += player.get('cards').size
+    })
+
+    // Finish the round if there are no cards left
+    if (cardsLeft === 0) this.finish()
+
+    this.updateDecision()
   }
 
   // Finish the round
   finish () {
     this.finished = true
-    this.actualDuelIndex += 1
   }
 
   // Return the players discounting prediction errors
   getResults () {
-    if (this.actualDuelIndex < this.duels.size) throw new Error(`The round doesn't finished yet`)
-
     // Count the wins of each player
     const winsOfEachPlayer = this.duels.reduce((acc, duel) => {
       const cards = duel.get('cards').map((item) => item.get('card'))
