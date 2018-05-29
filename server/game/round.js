@@ -53,6 +53,18 @@ class Round {
 
   // Update the decision time
   updateDecision () {
+    // The winner of the previous duel must start this
+    if (this.actualDuelIndex > 0) {
+      const previousDuel = this.duels.get(this.actualDuelIndex - 1)
+      const duelCards = previousDuel.get('cards').map((duelCard) => duelCard.get('card'))
+      const bestCard = extractBestCard(duelCards, this.pivot)
+      const bestPlayerId = previousDuel.get('cards').filter((duelCard) => duelCard.get('card') === bestCard).getIn([0, 'playerId'])
+
+      while (this.players.getIn([0, 'playerId']) !== bestPlayerId) {
+        this.players = this.players.shift().push(this.players.get(0))
+      }
+    }
+
     // Reset decision time
     if (this.decisionIndex === this.players.size - 1) {
       this.decisionIndex = 0
@@ -89,8 +101,6 @@ class Round {
       return player
     })
 
-    this.updateDecision()
-
     // Check if need to set next duel
     if (this.duels.get(this.actualDuelIndex).get('cards').size === this.players.size) {
       this.actualDuelIndex += 1
@@ -104,12 +114,13 @@ class Round {
 
     // Finish the round if there are no cards left
     if (cardsLeft === 0) this.finish()
+
+    this.updateDecision()
   }
 
   // Finish the round
   finish () {
     this.finished = true
-    this.actualDuelIndex += 1
   }
 
   // Return the players discounting prediction errors
@@ -117,7 +128,6 @@ class Round {
     // Count the wins of each player
     const winsOfEachPlayer = this.duels.reduce((acc, duel) => {
       const cards = duel.get('cards').map((item) => item.get('card'))
-      console.log(cards)
       const bestCard = extractBestCard(cards, this.pivot)
 
       // Check if the duel has folded
