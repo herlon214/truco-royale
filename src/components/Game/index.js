@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import CardsPredictionSelector from '../CardsPredictionSelector'
 import Card from '../Card'
 import PlayersTable from '../PlayersTable'
+import PlayersAvatars from '../PlayersAvatars'
 
 // Variables
 const styles = theme => ({
@@ -150,7 +151,7 @@ class Game extends Component {
     if (!this.props.data.started) {
       return (
         <div>
-          <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
+          <PlayersAvatars players={this.props.data.players} />
           <br /><br/>
           {this.startMessage()}
         </div>
@@ -160,7 +161,10 @@ class Game extends Component {
     if (this.getRound().finished) {
       return (
         <div>
-          <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
+          <PlayersAvatars
+            featured={this.getRound().decisionId}
+            players={this.getRound().players}
+            predicts={this.getRound().predicts} />
           <Typography variant='display1' className={this.props.classes.centered}>Resultados</Typography>
           <PlayersTable data={this.props.data.players} />
           <br />
@@ -171,7 +175,10 @@ class Game extends Component {
 
     return (
       <div>
-        <Typography>{this.props.data.players.length} jogador(es) conectados...</Typography>
+        <PlayersAvatars
+          featured={this.getRound().decisionId}
+          players={this.getRound().players}
+          predicts={this.getRound().predicts} />
         <Typography variant='display1' className={this.props.classes.centered}>Round {this.props.data.rounds.length}</Typography>
         <br/><br/>
         <div style={{textAlign: 'center', position: 'relative', height: '200px'}}>
