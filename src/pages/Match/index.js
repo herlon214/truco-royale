@@ -42,7 +42,7 @@ const Page = class Page extends Component {
 
       // Connect to the new game
       if (!store.matchId || store.matchId !== this.state.matchId) {
-        socket.emit('joinGame', this.state.matchId)
+        socket.emit('joinGame', { gameId: store.matchId, player: store.player })
         store.matchId = this.state.matchId
       }
     }
