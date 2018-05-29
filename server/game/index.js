@@ -46,6 +46,12 @@ class Game {
   createRound () {
     if (this.players.size === 0) throw new Error('There is no players')
 
+    // Change the person that starts the game
+    // if this isn't the first round
+    if (this.rounds.size > 0) {
+      this.players = this.players.shift().push(this.players.get(0))
+    }
+
     const round = new Round({
       number: this.rounds.size + 1,
       cards: this.shuffleCards(),
