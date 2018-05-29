@@ -7,7 +7,7 @@ import images from '../../../assets/cards/*'
 
 const Component = ({ name, available, className, style, handleClick }) => {
   const opacity = available ? 1.0 : 0.5
-  style = Object.assign({}, style, { height: '150px', opacity, marginRight: '10px' })
+  style = Object.assign({}, style, { height: '150px', opacity, margin: '10px' })
 
   return (<img 
     className={className}
