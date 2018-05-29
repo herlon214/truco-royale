@@ -3,6 +3,7 @@
 // Libs
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/core'
+import store from '../../libs/store'
 
 // Components
 import Grid from '@material-ui/core/Grid'
@@ -26,7 +27,7 @@ const styles = theme => ({
 class NewGameForm extends Component {
   constructor (props) {
     super(props)
-    this.state = {nickname: ''}
+    this.state = {nickname: store.player.name}
 
     this.onSubmit      = this.onSubmit.bind(this)
     this.onValueChange = this.onValueChange.bind(this)
@@ -37,6 +38,8 @@ class NewGameForm extends Component {
   }
 
   onValueChange (evt) {
+    // Persist data
+    store.player.name = evt.target.value
     this.setState({ nickname: evt.target.value })
   }
 
