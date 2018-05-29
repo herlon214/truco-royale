@@ -36,7 +36,6 @@ const Page = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      
     </div>
   )
 }

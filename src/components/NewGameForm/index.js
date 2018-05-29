@@ -24,25 +24,23 @@ const styles = theme => ({
 })
 
 class NewGameForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {nickname: ''};
+  constructor (props) {
+    super(props)
+    this.state = {nickname: ''}
 
-    this.onSubmit       = this.onSubmit.bind(this);
-    this.onValueChange  = this.onValueChange.bind(this);
+    this.onSubmit      = this.onSubmit.bind(this)
+    this.onValueChange = this.onValueChange.bind(this)
   }
 
-  onSubmit(){
-    console.log()
-    
-    this.props.onSubmit(this.props.history);
+  onSubmit () {
+    this.props.onSubmit(this.props.history)
   }
 
-  onValueChange(evt){
-    this.setState({nickname: evt.target.value });
+  onValueChange (evt) {
+    this.setState({ nickname: evt.target.value })
   }
 
-  render() {
+  render () {
     const form =
     <div>
       <FormControl>
@@ -52,19 +50,19 @@ class NewGameForm extends Component {
           </Grid>
           <Grid item>
             <TextField label='Insira seu apelido'
-                       value={this.state.nickname}
-                       onChange={this.onValueChange}/>
+              value={this.state.nickname}
+              onChange={this.onValueChange}/>
           </Grid>
         </Grid>
       </FormControl>
       <div style={{marginTop: '10px'}}>
-        <Button variant='raised' color='primary' onClick={this.onSubmit}>Criar</Button>
+        <Button variant='raised' color='primary' 
+          onClick={() => this.onSubmit(this.state.nickname)}>Criar</Button>
       </div>
     </div>
 
-      return form;
+    return form
   }
 }
 
 export default withStyles(styles)(NewGameForm)
-
