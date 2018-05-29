@@ -32,7 +32,7 @@ const Page = (props) => {
       <Grid container justify='center'>
         <Grid item xs={12} md={6}>
           <Grid container className={props.classes.form}>
-            <NewGameForm onSubmit={createNewGame} history={props.history} />
+            <NewGameForm onSubmit={createNewGame(props.history)} />
           </Grid>
         </Grid>
       </Grid>
