@@ -179,7 +179,7 @@ class Game extends Component {
         </div>
         <br/><br/>
         <Grid container spacing={24}>
-          <Grid item xs={12} style={{position: 'relative'}}>
+          <Grid item xs={12} style={{ position: 'relative', textAlign: 'center' }}>
             {this.listMyCards()}
           </Grid>
         </Grid>
