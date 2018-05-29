@@ -4,7 +4,8 @@ const GenerateId = require('generate-id')
 const guid = new GenerateId()
 
 module.exports = (context, socket, data, callback) => {
-  const game = new Game(guid.generate(3))
+  const id = guid.generate({ length: 3, include: ['numbers'] })
+  const game = new Game(id)
 
   context.games.push(game)
 
