@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core'
 import socket from '../../libs/socket'
 
 // Components
-import NewGameForm from '/components/NewGameForm';
+import NewGameForm from '/components/NewGameForm'
 import Grid from '@material-ui/core/Grid'
 
 // Variables
