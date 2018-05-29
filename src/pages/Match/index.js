@@ -86,7 +86,6 @@ const Page = class Page extends Component {
     if (this.state.matchId !== '' && this.state.gameData === null) {
       return (
         <Grid container justify='center'>
-          {JSON.stringify(this.state)}
           <CircularProgress className={this.props.classes.progress} />
         </Grid>
       )
