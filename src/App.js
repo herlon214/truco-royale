@@ -22,7 +22,7 @@ import green from '@material-ui/core/colors/green'
 // Variables
 const theme = createMuiTheme({
   palette: {
-    primary: green
+    primary: Object.assign({}, green, { contrastText: '#fff' })
   }
 })
 const styles = theme => ({
