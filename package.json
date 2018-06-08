@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run dev:front\" \"DEBUG=truco-royale:* npm run dev:back\"",
     "dev:front": "parcel ./src/index.html",
     "dev:back": "nodemon index.js --watch server",
-    "start": "parcel build ./src/index.html --public-url ./ && node .",
+    "start": "parcel build ./src/index.html --public-url / && node .",
     "serverTests": "mocha server/tests/**"
   },
   "keywords": [
